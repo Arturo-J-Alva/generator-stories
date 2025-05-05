@@ -60,8 +60,9 @@ export default function Home() {
 
       const data = await response.json();
       
-      if (data.success && data.imageUrl) {
-        setGeneratedImage(data.imageUrl);
+      if (data.success && data.dataUrl) {
+        // Usar directamente la URL de datos base64
+        setGeneratedImage(data.dataUrl);
       } else {
         console.error('Failed to generate image:', data.message);
       }
