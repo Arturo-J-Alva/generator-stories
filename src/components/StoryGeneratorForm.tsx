@@ -66,7 +66,7 @@ export default function StoryGeneratorForm({ onSubmit, submissionCompleted = fal
             <div className="relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-pink-400 to-purple-400 rounded-lg blur opacity-50"></div>
                 <div className="relative bg-white p-6 rounded-lg">
-                    <label htmlFor="theme" className="block text-2xl font-medium text-purple-700 mb-4">
+                    <label htmlFor="theme" className="block text-xl md:text-2xl font-medium text-purple-700 mb-4">
                         🎭 Elige un tema:
                     </label>
                     <select
@@ -74,7 +74,7 @@ export default function StoryGeneratorForm({ onSubmit, submissionCompleted = fal
                         name="theme"
                         value={formData.theme}
                         onChange={handleChange}
-                        className="w-full p-4 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 text-lg"
+                        className="w-full p-3 md:p-4 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 text-base md:text-lg"
                     >
                         <option value="divertido">😄 Divertido</option>
                         <option value="dormir">🌙 Para dormir</option>
@@ -87,7 +87,7 @@ export default function StoryGeneratorForm({ onSubmit, submissionCompleted = fal
             <div className="relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-teal-400 rounded-lg blur opacity-50"></div>
                 <div className="relative bg-white p-6 rounded-lg">
-                    <label htmlFor="storyPrompt" className="block text-2xl font-medium text-purple-700 mb-4">
+                    <label htmlFor="storyPrompt" className="block text-xl md:text-2xl font-medium text-purple-700 mb-4">
                         💭 Describe tu cuento:
                     </label>
                     <textarea
@@ -96,7 +96,7 @@ export default function StoryGeneratorForm({ onSubmit, submissionCompleted = fal
                         value={formData.storyPrompt}
                         onChange={handleChange}
                         rows={5}
-                        className="w-full p-4 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 text-lg"
+                        className="w-full p-3 md:p-4 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 text-base md:text-lg"
                         placeholder="Escribe sobre qué quieres que sea tu cuento..."
                     ></textarea>
                 </div>
@@ -106,7 +106,7 @@ export default function StoryGeneratorForm({ onSubmit, submissionCompleted = fal
                 <button
                     type="submit"
                     disabled={isDisabledButton}
-                    className={`inline-block px-10 py-4 text-white font-bold text-xl rounded-full transform transition 
+                    className={`inline-block px-6 py-3 md:px-10 md:py-4 text-white font-bold text-base md:text-xl rounded-full transform transition 
                     ${isDisabledButton 
                         ? 'bg-gradient-to-r from-gray-400 to-gray-500 opacity-70 cursor-not-allowed shadow-md' 
                         : 'bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg hover:shadow-xl hover:-translate-y-1 hover:scale-105'
@@ -115,7 +115,7 @@ export default function StoryGeneratorForm({ onSubmit, submissionCompleted = fal
                     {isSubmitting 
                         ? '⏳ Generando...' 
                         : isGeneratingHistory 
-                            ? '🔄 Procesando historia...' 
+                            ? '🔄 Procesando...' 
                             : '🪄 ¡Generar Cuento! 🦄'}
                 </button>
             </div>

@@ -198,7 +198,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-blue-100 to-pink-100 p-6">
       <main className="max-w-4xl mx-auto py-8">
-        <h1 className="text-5xl font-bold text-center mb-10 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 drop-shadow-md">
+        <h1 className="text-3xl md:text-5xl font-bold text-center mb-10 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 drop-shadow-md">
           🧙‍♂️ Generador de cuentos infantiles 📚
         </h1>
 
@@ -214,7 +214,7 @@ export default function Home() {
               <div className="flex flex-col items-center justify-center">
                 <div className="flex items-center mb-4">
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
-                  <span className="ml-4 text-xl text-purple-700">Generando tu cuento mágico...</span>
+                  <span className="ml-4 text-base md:text-xl text-purple-700">Generando tu cuento mágico...</span>
                 </div>
 
                 {streamedContent && (
@@ -246,7 +246,7 @@ export default function Home() {
                     {isGeneratingImage ? (
                       <div className="flex flex-col items-center justify-center h-full">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mb-4"></div>
-                        <span className="text-purple-700">Creando ilustración...</span>
+                        <span className="text-sm md:text-base text-purple-700">Creando ilustración...</span>
                       </div>
                     ) : generatedImage ? (
                       <div className="relative w-full h-64 md:h-80">
