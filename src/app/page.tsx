@@ -193,6 +193,7 @@ export default function Home() {
         <StoryGeneratorForm
           onSubmit={handleFormSubmit}
           submissionCompleted={submissionCompleted}
+          isGeneratingHistory={isLoading}
         />
 
         {isLoading && (

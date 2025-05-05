@@ -7,6 +7,7 @@ interface FormData {
 
 interface StoryGeneratorFormProps {
     onSubmit: (formData: FormData) => void;
+    isGeneratingHistory: boolean
     submissionCompleted?: boolean;
 }
 
@@ -15,7 +16,7 @@ const initialFormState: FormData = {
     storyPrompt: '',
 };
 
-export default function StoryGeneratorForm({ onSubmit, submissionCompleted = false }: StoryGeneratorFormProps) {
+export default function StoryGeneratorForm({ onSubmit, submissionCompleted = false,isGeneratingHistory }: StoryGeneratorFormProps) {
 
     const [formData, setFormData] = useState<FormData>(initialFormState);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,6 +58,8 @@ export default function StoryGeneratorForm({ onSubmit, submissionCompleted = fal
             setIsSubmitting(false);
         }
     };
+
+    const isDisabledButton = isSubmitting || isGeneratingHistory
 
     return (
         <form onSubmit={handleSubmit} className="space-y-8 px-4">
@@ -102,10 +105,18 @@ export default function StoryGeneratorForm({ onSubmit, submissionCompleted = fal
             <div className="mt-10 text-center">
                 <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className={`inline-block px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-xl rounded-full shadow-lg hover:shadow-xl transform transition hover:-translate-y-1 hover:scale-105 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    disabled={isDisabledButton}
+                    className={`inline-block px-10 py-4 text-white font-bold text-xl rounded-full transform transition 
+                    ${isDisabledButton 
+                        ? 'bg-gradient-to-r from-gray-400 to-gray-500 opacity-70 cursor-not-allowed shadow-md' 
+                        : 'bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg hover:shadow-xl hover:-translate-y-1 hover:scale-105'
+                    }`}
                 >
-                    {isSubmitting ? '⏳ Generando...' : '🪄 ¡Generar Cuento! 🦄'}
+                    {isSubmitting 
+                        ? '⏳ Generando...' 
+                        : isGeneratingHistory 
+                            ? '🔄 Procesando historia...' 
+                            : '🪄 ¡Generar Cuento! 🦄'}
                 </button>
             </div>
         </form>
