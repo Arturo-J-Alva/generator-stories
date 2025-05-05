@@ -1,6 +1,7 @@
 "use client";
 
 import StoryGeneratorForm from '@/components/StoryGeneratorForm';
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 interface FormData {
@@ -17,8 +18,11 @@ export default function Home() {
   const [generatedStory, setGeneratedStory] = useState<StoryData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [submissionCompleted, setSubmissionCompleted] = useState(false);
+  const [imagePrompt, setImagePrompt] = useState("")
   const [streamedContent, setStreamedContent] = useState<string>('');
   const eventSourceRef = useRef<EventSource | null>(null);
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
 
   // Cleanup event source on component unmount
   useEffect(() => {
@@ -31,6 +35,43 @@ export default function Home() {
     };
   }, []);
 
+  // Generate image after story completion and imagePrompt is ready
+  useEffect(() => {
+    if (submissionCompleted && imagePrompt && !generatedImage && !isGeneratingImage) {
+      generateImage(imagePrompt);
+    }
+  }, [submissionCompleted, imagePrompt, generatedImage, isGeneratingImage]);
+
+  const generateImage = async (prompt: string) => {
+    try {
+      setIsGeneratingImage(true);
+      
+      const response = await fetch('/api/gemini/image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ imagePrompt: prompt }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.success && data.imageUrl) {
+        setGeneratedImage(data.imageUrl);
+      } else {
+        console.error('Failed to generate image:', data.message);
+      }
+    } catch (error) {
+      console.error('Error generating image:', error);
+    } finally {
+      setIsGeneratingImage(false);
+    }
+  };
+
   const connectToStream = async (message: string) => {
     // Close any existing stream
     if (eventSourceRef.current) {
@@ -41,6 +82,7 @@ export default function Home() {
     setIsLoading(true);
     setStreamedContent('');
     setSubmissionCompleted(false);
+    setGeneratedImage(null);
 
     try {
       // Create the request to our API endpoint
@@ -94,12 +136,14 @@ export default function Home() {
                       }
                       break;
                     case 'done':
-                      const { title, history } = JSON.parse(storyText)
+                      const { title, history, image_prompt } = JSON.parse(storyText)
                       // Create story object
                       setGeneratedStory({
                         title,
                         content: history
                       });
+
+                      setImagePrompt(image_prompt)
 
                       setSubmissionCompleted(true);
                       setIsLoading(false);
@@ -170,12 +214,40 @@ export default function Home() {
         )}
 
         {!isLoading && generatedStory && (
-          <div className="relative mt-12">
-            <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-lg blur opacity-50"></div>
-            <div className="relative bg-white p-6 rounded-lg">
-              <h2 className="text-2xl font-bold text-orange-600 mb-4 text-center">{generatedStory.title}</h2>
-              <div className="prose prose-lg">
-                <p>{generatedStory.content}</p>
+          <div className="mt-12">
+            <div className="relative mb-10">
+              <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-lg blur opacity-50"></div>
+              <div className="relative bg-white p-6 rounded-lg">
+                <h2 className="text-2xl font-bold text-orange-600 mb-4 text-center">{generatedStory.title}</h2>
+                
+                {/* Contenedor flexible para historia e imagen */}
+                <div className="flex flex-col md:flex-row gap-6">
+                  {/* Contenido de la historia */}
+                  <div className="prose prose-lg md:w-1/2">
+                    <p>{generatedStory.content}</p>
+                  </div>
+                  
+                  {/* Contenedor de la imagen */}
+                  <div className="md:w-1/2 flex flex-col items-center">
+                    {isGeneratingImage ? (
+                      <div className="flex flex-col items-center justify-center h-full">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mb-4"></div>
+                        <span className="text-purple-700">Creando ilustración...</span>
+                      </div>
+                    ) : generatedImage ? (
+                      <div className="relative w-full h-64 md:h-80">
+                        <Image 
+                          src={generatedImage} 
+                          alt="Ilustración del cuento" 
+                          className="rounded-lg shadow-lg object-contain"
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          priority
+                        />
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
