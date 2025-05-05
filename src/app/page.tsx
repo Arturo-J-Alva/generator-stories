@@ -23,6 +23,7 @@ export default function Home() {
   const eventSourceRef = useRef<EventSource | null>(null);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const resultSectionRef = useRef<HTMLDivElement>(null);
 
   // Cleanup event source on component unmount
   useEffect(() => {
@@ -34,6 +35,16 @@ export default function Home() {
       eventSourceRef.current = null;
     };
   }, []);
+
+  // Scroll to results section when loading or when story is generated
+  useEffect(() => {
+    if ((isLoading || generatedStory) && resultSectionRef.current) {
+      resultSectionRef.current.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }, [isLoading, generatedStory]);
 
   // Generate image after story completion and imagePrompt is ready
   useEffect(() => {
@@ -84,6 +95,7 @@ export default function Home() {
     setStreamedContent('');
     setSubmissionCompleted(false);
     setGeneratedImage(null);
+    setGeneratedStory(null);
 
     try {
       // Create the request to our API endpoint
@@ -216,7 +228,7 @@ export default function Home() {
         )}
 
         {!isLoading && generatedStory && (
-          <div className="mt-12">
+          <div className="mt-12" ref={resultSectionRef}>
             <div className="relative mb-10">
               <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-lg blur opacity-50"></div>
               <div className="relative bg-white p-6 rounded-lg">
