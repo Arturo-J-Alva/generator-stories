@@ -88,8 +88,8 @@ export async function POST(request: Request) {
             if (chunk.candidates[0].content.parts[0].inlineData) {
                 const fileName = `image-${Date.now()}`;
                 const inlineData = chunk.candidates[0].content.parts[0].inlineData;
-                let fileExtension = mime.getExtension(inlineData.mimeType || '') || 'png';
-                let buffer = Buffer.from(inlineData.data || '', 'base64');
+                const fileExtension = mime.getExtension(inlineData.mimeType || '') || 'png';
+                const buffer = Buffer.from(inlineData.data || '', 'base64');
                 
                 // Guardar el archivo y obtener el nombre
                 const savedFileName = await saveBinaryFile(`${fileName}.${fileExtension}`, buffer);
