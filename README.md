@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧙‍♂️ StoryGenerator - Children's Story Generator
 
-## Getting Started
+StoryGenerator is a web application built with Next.js that generates personalized children's stories using artificial intelligence. Users can select a theme and describe the story they want, and the application will generate a unique and creative story.
 
-First, run the development server:
+![StoryGenerator Logo](public/file.svg)
+
+## ✨ Features
+
+- 📚 Generation of personalized children's stories
+- 🎭 Different themes for stories (fun, bedtime, exciting, educational)
+- 🤖 Uses OpenAI API to generate creative stories
+- 💻 Kid-friendly and attractive interface
+- 🎨 Responsive design with Tailwind CSS
+
+## 🚀 Technologies
+
+- [Next.js 15](https://nextjs.org/) - React Framework
+- [React 19](https://react.dev/) - UI Library
+- [OpenAI API](https://openai.com/) - AI Text Generation
+- [Tailwind CSS 4](https://tailwindcss.com/) - CSS Framework
+- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript Superset
+- [Turbopack](https://turbo.build/pack) - Optimized Web Bundler
+
+## 🛠️ Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone the repository
+git clone <repository-url>
+
+# Navigate to the project directory
+cd storygenerator
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+# Create a .env.local file in the root of the project and add:
+# OPENAI_API_KEY=your_openai_api_key
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🖥️ Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Start the development server
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-## Learn More
+### How to generate a story:
 
-To learn more about Next.js, take a look at the following resources:
+1. Select a theme for your story (fun, bedtime, exciting, educational)
+2. Write a description of what you'd like your story to include
+3. Click the "Generate Story!" button
+4. Enjoy your personalized story!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📝 Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+storygenerator/
+├── public/             # Static files
+├── src/
+│   ├── app/            # Application routes and pages
+│   ├── components/     # Reusable components
+│   └── api/            # API endpoints
+└── ...                 # Configuration files
+```
 
-## Deploy on Vercel
+## 📚 API
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The project includes API endpoints for communication with OpenAI:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `POST /api/openai/message` - Generates a story based on the provided theme and description
+
+## 👨‍💻 Development
+
+```bash
+# Run linter
+npm run lint
+
+# Build for production
+npm run build
+
+# Start in production mode
+npm start
+```
+
+## 📄 License
+
+[MIT](LICENSE)
+
+---
+
+Made with ❤️ as part of the Platzi Next.js 2024 course
