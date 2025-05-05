@@ -18,15 +18,30 @@ const config = {
 };
 const model = 'gemini-2.0-flash-exp-image-generation';
 
-// Función para guardar la imagen en la carpeta public
+// Función para guardar la imagen en la carpeta public/images
 async function saveBinaryFile(fileName: string, content: Buffer) {
     try {
         const publicDir = path.join(process.cwd(), 'public');
-        const fullPath = path.join(publicDir, fileName);
+        const imagesDir = path.join(publicDir, 'images');
+        
+        // Crear la carpeta images si no existe
+        try {
+            await import('fs').then(async fs => {
+                if (!fs.existsSync(imagesDir)) {
+                    await import('fs/promises').then(async fsp => {
+                        await fsp.mkdir(imagesDir, { recursive: true });
+                    });
+                }
+            });
+        } catch (error) {
+            console.error('Error creating images directory:', error);
+        }
+        
+        const fullPath = path.join(imagesDir, fileName);
         
         await writeFile(fullPath, content);
-        console.log(`File ${fileName} saved to public directory.`);
-        return fileName; // Retorna el nombre del archivo para construir la URL
+        console.log(`File ${fileName} saved to public/images directory.`);
+        return `images/${fileName}`; // Retorna la ruta relativa incluyendo la carpeta images
     } catch (error) {
         console.error(`Error writing file ${fileName}:`, error);
         throw error;
